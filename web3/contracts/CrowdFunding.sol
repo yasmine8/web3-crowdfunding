@@ -40,7 +40,39 @@ contract CrowdFunding {
 
 
     }
-    
+    function deleteCampaign(uint256 _campaignIndex) public { 
+        // Ensure the campaign exists
+        require(_campaignIndex < numberOfCampaigns, "Invalid campaign index");
+
+        // Ensure the caller is the owner of the campaign
+        require(msg.sender == campaigns[_campaignIndex].owner, "Only the campaign owner can delete it");
+
+        // Shift all elements after the deleted campaign back by one index
+        for (uint256 i = _campaignIndex; i < numberOfCampaigns - 1; i++) {
+            campaigns[i] = campaigns[i+1];
+        }
+
+        // Delete the last element in the array
+        delete campaigns[numberOfCampaigns-1];
+
+        // Decrement the number of campaigns
+        numberOfCampaigns--;
+    }
+    function editCampaign(uint256 _campaignIndex, string memory _title, string memory _description, uint256 _target, uint256 _deadline, string memory _image) public {
+        // Ensure the campaign exists
+        require(_campaignIndex < numberOfCampaigns, "Invalid campaign index");
+
+        // Ensure the caller is the owner of the campaign
+        require(msg.sender == campaigns[_campaignIndex].owner, "Only the campaign owner can edit it");
+
+        // Update the campaign properties
+        Campaign storage campaign = campaigns[_campaignIndex];
+        campaign.title = _title;
+        campaign.description = _description;
+        campaign.target = _target;
+        campaign.deadline = _deadline;
+        campaign.image = _image;
+    }
 
     function donateToCampaign(uint256 _id) public payable{
         uint256 amount = msg.value;

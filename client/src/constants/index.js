@@ -19,8 +19,8 @@ export const navlinks = [
   {
     name: 'withdraw',
     imgUrl: withdraw,
-    link: '/',
-    disabled: true,
+    link: '/edit-campaign',
+    disabled: false,
   },
   {
     name: 'profile',

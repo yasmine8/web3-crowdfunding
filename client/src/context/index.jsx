@@ -7,13 +7,13 @@ const StateContext = createContext();
 
 export const StateContextProvider = ({children}) =>{
 
-    const { contract} =useContract('0x374918309344b9a5d8eC19517047552f86592472')
+    const { contract} =useContract('0xAA04d00C3C2Fd696039F6ba0eE59E12fFA6041D7')
     const {mutateAsync: createCampaign} = useContractWrite(contract,'createCampaign')
 
     const address = useAddress()
     const connect = useMetamask()
 
-    const publishCampaign = async(form) => {
+    const publishCampaign = async(form) => { 
         try {
             const data = await createCampaign([
                 address,
@@ -58,6 +58,14 @@ export const StateContextProvider = ({children}) =>{
         const data = await contract.call('donateToCampaign', pId, { value: ethers.utils.parseEther(amount)})
         return data;
     }
+    const deleteCamp = async(pId) =>{
+        const data = await contract.call('deleteCampaign', pId)
+        return data;
+    }
+    const EditCampaign = async(pId) =>{
+        const data = await contract.call('editCampaign', pId,_title, _description, _target, _deadline, _image)
+        return data;
+    }
     const getDonations = async (pId) =>{
         const donations = await contract.call('getDonators', pId)
         const numberOfDonations = donations[0].length;
@@ -86,7 +94,9 @@ export const StateContextProvider = ({children}) =>{
                 getCampaigns,
                 getUserCampaigns,
                 donate,
-                getDonations
+                getDonations,
+                deleteCamp,
+                EditCampaign
             }
             }
         >

@@ -12,7 +12,7 @@ import { logo , thirdweb} from '../assets'
 const CampaignDetails = () => {
   const {state} =useLocation()
   const navigate = useNavigate()
-  const { donate, getDonations, contract, address } = useStateContext();
+  const { donate, getDonations, contract, address,deleteCamp } = useStateContext();
 
   const [isLoading, setIsLoading] = useState(false);
   const [amount, setAmount] = useState('');
@@ -37,6 +37,21 @@ const CampaignDetails = () => {
     navigate('/')
     setIsLoading(false)
   }
+  const handleDeleteCampaign = async() =>{
+    setIsLoading(true)
+    await deleteCamp(state.pId)
+    navigate('/')
+    setIsLoading(false)
+    
+  }
+  const handleEditCampaign = async() =>{
+    
+    
+  }
+
+  const handleNavigate = (campaign) => {
+    navigate(`/edit-campaign/${campaign.title}`, { state: campaign })
+  }
 
   return (
     <div>
@@ -55,6 +70,17 @@ const CampaignDetails = () => {
           <CountBox title="Days Left" value={remainingDays} />
           <CountBox title={`Raised of ${state.target}`} value={state.amountCollected} />
           <CountBox title="Total Backers" value={donators.length} />
+          <div>
+          <button type="button" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+           onClick={handleDeleteCampaign}>
+            Delete
+          </button>
+          <button type="button" className="focus:outline-none text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-900">
+           {/*onClick={() => handleNavigate(state)}*/}
+           
+            EDIT
+          </button>
+          </div>
         </div>
       </div>
 
@@ -97,7 +123,7 @@ const CampaignDetails = () => {
                   </p>
                 )}
               </div>
-          </div>
+          </div> 
         </div>
 
         <div className="flex-1">
