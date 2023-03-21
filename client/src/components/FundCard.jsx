@@ -1,14 +1,24 @@
-import React from 'react'
+import React  from 'react'
 
 import { tagType, thirdweb } from '../assets';
 import { daysLeft } from '../utils';
 
 function FundCard({ owner, title, description, target, deadline, amountCollected, image, handleClick ,isInProfile}) {
   const remainingDays = daysLeft(deadline);
+
+
+  const handleClickWrapper = () => {
+    if (remainingDays>=0) {
+      handleClick();
+    }
+  }
   
   return (
-    <div className="sm:w-[288px] w-full rounded-[15px] bg-[#1c1c24] cursor-pointer" >
-      <div onClick={handleClick}>
+    <div style={{ opacity: (remainingDays<0) ? 0.5 : 1 }}>
+    <div className="sm:w-[288px] w-full rounded-[15px] bg-[#1c1c24] " 
+        style={{cursor: (remainingDays<0) ? 'default' : 'pointer'}} 
+        onClick={handleClickWrapper}
+        >
       <img src={image} alt="fund" className="w-full h-[158px] object-cover rounded-[15px]"/>
 
       <div className="flex flex-col p-4">
@@ -41,8 +51,9 @@ function FundCard({ owner, title, description, target, deadline, amountCollected
             
         </div>
       </div>
+      
+
     </div>
-    
     </div>
   )
 }

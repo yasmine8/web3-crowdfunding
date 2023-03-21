@@ -7,8 +7,7 @@ import { loader } from '../assets';
 const DisplayCampaigns = ({ title, isLoading, campaigns,searchTerm }) => {
   const navigate = useNavigate();
   const {address} = useStateContext()
-
-
+  
   const handleNavigate = (campaign) => {
     navigate(`/campaign-details/${campaign.title}`, { state: campaign })
   }
@@ -17,12 +16,12 @@ const DisplayCampaigns = ({ title, isLoading, campaigns,searchTerm }) => {
     return campaign.title.toLowerCase().includes(searchTerm.toLowerCase());
   }); 
   return (
-    <div>
+    <div >
       <h1 className="font-epilogue font-semibold text-[18px] text-white text-left">
           {searchTerm === '' ? `${title} (${campaigns.length})` : `Searching Result (${filtered.length})`}
       </h1>
 
-      <div className="flex flex-wrap mt-[20px] gap-[26px]">
+      <div className="flex flex-wrap mt-[20px] gap-[26px]"  >
         {isLoading && (
           <img src={loader} alt="loader" className="w-[100px] h-[100px] object-contain" />
         )}
